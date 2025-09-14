@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cstring>
+using namespace std;
+
+int main(){
+    int n;
+    cin >> n;
+    cin.ignore();
+    
+    int m=0;
+    string *names = new string[n];
+    for(int i=0;i<n;i++){
+        getline(cin,names[i]);
+        if(names[i].size()>m) m = names[i].size();
+    }
+    
+    char **students = new char* [n];
+    
+    for(int i=0;i<n;i++){
+        students[i]=new char [m+1];
+        strcpy(students[i],names[i].c_str());
+    }
+    int *space = new int[n];
+    int last_space = 0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){//檢查名字空格，m是最大長度所以小於m
+            if(students[i][j] == ' '){ //students[i]這名字的長度中檢查名字空格
+                space[i]=j;
+                if(j > last_space) last_space =j;
+                break;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int k=0;k < last_space-space[i];k++){
+            cout<<" ";
+        }
+        cout << students[i]<<"\n";
+        delete[] students[i];
+    }
+    delete[] students;
+    
+    return 0;
+}
